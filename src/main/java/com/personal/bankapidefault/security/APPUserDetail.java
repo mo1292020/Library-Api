@@ -1,5 +1,6 @@
 package com.personal.bankapidefault.security;
 
+import com.personal.bankapidefault.entity.BookEntity;
 import com.personal.bankapidefault.entity.UsersEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -34,6 +36,7 @@ public class APPUserDetail implements UserDetails {
     private boolean isAccountNonLocked;
     private boolean isAccountNonExpired;
     private List<GrantedAuthority> authorities;
+    private Set<BookEntity> books;
 
 
     public APPUserDetail() {
@@ -56,6 +59,7 @@ public class APPUserDetail implements UserDetails {
         this.isCredentialsNonExpired = usersEntity.isCredentialsNonExpired();
         this.isAccountNonExpired = usersEntity.isAccountNonExpired();
         this.isAccountNonLocked = usersEntity.isAccountNonLocked();
+        this.books = usersEntity.getBookEntities();
         this.authorities = grantedAuthorities(usersEntity);
     }
 

@@ -1,5 +1,6 @@
 package com.personal.bankapidefault.dto;
 
+import com.personal.bankapidefault.entity.BookEntity;
 import com.personal.bankapidefault.entity.SecurityRoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +10,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Component
 @Data
 @Builder
 @NoArgsConstructor
@@ -33,4 +36,5 @@ public class UserDto {
     private boolean isAccountNonLocked;
     private boolean isAccountNonExpired;
     private Set<SecurityRoleEntity> securityRoleEntities;
+    private Set<BookDto> purchasedBooks;
 }

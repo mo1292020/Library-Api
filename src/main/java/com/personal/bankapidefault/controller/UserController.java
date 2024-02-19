@@ -1,22 +1,21 @@
 package com.personal.bankapidefault.controller;
 
+import com.personal.bankapidefault.dto.AddBookRequestDto;
+import com.personal.bankapidefault.dto.BookDto;
 import com.personal.bankapidefault.dto.UserDto;
-import com.personal.bankapidefault.entity.UsersEntity;
+import com.personal.bankapidefault.entity.BookEntity;
+import com.personal.bankapidefault.mapper.BookMapper;
 import com.personal.bankapidefault.security.APPUserDetail;
-import com.personal.bankapidefault.service.impl.UserServiceImpl;
+import com.personal.bankapidefault.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -25,9 +24,11 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
     private Authentication authentication;
     private APPUserDetail appUserDetail;
+
+    private final BookMapper bookMapper;
 
     @GetMapping("/users")
     public List<UserDto> findAll(){
@@ -37,14 +38,15 @@ public class UserController {
         if(!userRole.contains(new SimpleGrantedAuthority("admin"))) {
             return new ArrayList<>();
         }
-        return userServiceImpl.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/user")
-    public Optional<UsersEntity> findById(){
+    public Optional<UserDto> findById(){
         authentication = SecurityContextHolder.getContext().getAuthentication();
         appUserDetail = (APPUserDetail) authentication.getPrincipal();
-        return userServiceImpl.findById(appUserDetail.getId());
+        return userService.findById(appUserDetail.getId());
     }
+
 
 }

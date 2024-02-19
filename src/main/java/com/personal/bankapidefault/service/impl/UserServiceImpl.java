@@ -1,31 +1,38 @@
 package com.personal.bankapidefault.service.impl;
 
+import com.personal.bankapidefault.dto.BookDto;
 import com.personal.bankapidefault.dto.UserDto;
+import com.personal.bankapidefault.entity.BookEntity;
 import com.personal.bankapidefault.entity.UsersEntity;
+import com.personal.bankapidefault.mapper.BookMapper;
 import com.personal.bankapidefault.mapper.UserMapper;
+import com.personal.bankapidefault.repository.BookRepo;
 import com.personal.bankapidefault.repository.UserRepo;
 import com.personal.bankapidefault.security.APPUserDetail;
 import com.personal.bankapidefault.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
+    private final BookRepo bookRepo;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final BookMapper bookMapper;
 
     @Override
     public List<UserDto> findAll(){
@@ -39,14 +46,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UsersEntity> findById(Long id){
-        return userRepo.findById(id);
+    public Optional<UserDto> findById(Long id){
+        return Optional.ofNullable(userMapper.toDto(userRepo.findById(id).get()));
     }
 
     @Override
     public void save(UserDto userDto){
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepo.save(userMapper.toEntity(userDto));
+    }
+
+
+    @Override
+    public void addBook(Long userId, Long bookId) {
+        UsersEntity userEntity = userRepo.findById(userId).get();
+        BookEntity bookEntity = bookRepo.findById(bookId).get();
+        Set<BookEntity> booksentity = new HashSet<>();
+        if(userEntity.getBookEntities()!=null){
+            userEntity.getBookEntities().add(bookEntity);
+            userRepo.save(userEntity);
+        }
+        else{
+            booksentity.add(bookEntity);
+            userEntity.setBookEntities(booksentity);
+            userRepo.save(userEntity);
+        }
+
+    }
+    @Transactional
+    @Override
+    public void delete(Long id) {
+         userRepo.deleteById(id);
     }
 
     @Override
