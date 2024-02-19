@@ -5,6 +5,7 @@ import com.personal.bankapidefault.dto.BookDto;
 import com.personal.bankapidefault.dto.SecurityRoleDto;
 import com.personal.bankapidefault.dto.UserDto;
 import com.personal.bankapidefault.entity.SecurityRoleEntity;
+import com.personal.bankapidefault.mapper.BookMapper;
 import com.personal.bankapidefault.mapper.UserMapper;
 import com.personal.bankapidefault.service.*;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class StartUpApp  implements CommandLineRunner {
     private final BookService bookService;
     private final BookDto bookDto;
     private final UserMapper userMapper;
+    private final BookMapper bookMapper;
     private final PasswordEncoder passwordEncoder;
     private UserDto userDto ;
 
@@ -126,7 +128,7 @@ public class StartUpApp  implements CommandLineRunner {
             bookDto.setTitle("World to science");
             bookDto.setDeploydAt(timestamp);
             bookDto.setPageNumber(240L);
-            bookService.save(bookDto);
+            bookService.save(bookMapper.toEntity(bookDto));
 
             bookDto.setId(2L);
             bookDto.setAuthor("Lotfy Albert");
@@ -137,7 +139,7 @@ public class StartUpApp  implements CommandLineRunner {
             bookDto.setTitle("World to Physic");
             bookDto.setDeploydAt(timestamp);
             bookDto.setPageNumber(262L);
-            bookService.save(bookDto);
+            bookService.save(bookMapper.toEntity(bookDto));
 
             bookDto.setId(3L);
             bookDto.setAuthor("Ahmed Albert");
@@ -148,7 +150,7 @@ public class StartUpApp  implements CommandLineRunner {
             bookDto.setTitle("World to Mathematics");
             bookDto.setDeploydAt(timestamp);
             bookDto.setPageNumber(240L);
-            bookService.save(bookDto);
+            bookService.save(bookMapper.toEntity(bookDto));
             userDto = userService.findById(2L).get();
 
         }

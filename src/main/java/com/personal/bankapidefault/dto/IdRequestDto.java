@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Setter
 @Getter
-public class AddBookRequestDto {
+public class IdRequestDto {
 
     @NotEmpty
     private long id;

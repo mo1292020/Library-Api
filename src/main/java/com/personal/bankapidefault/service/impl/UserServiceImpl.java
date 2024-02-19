@@ -56,22 +56,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public void addBook(Long userId, Long bookId) {
-        UsersEntity userEntity = userRepo.findById(userId).get();
-        BookEntity bookEntity = bookRepo.findById(bookId).get();
-        Set<BookEntity> booksentity = new HashSet<>();
-        if(userEntity.getBookEntities()!=null){
-            userEntity.getBookEntities().add(bookEntity);
-            userRepo.save(userEntity);
-        }
-        else{
-            booksentity.add(bookEntity);
-            userEntity.setBookEntities(booksentity);
-            userRepo.save(userEntity);
-        }
-
-    }
     @Transactional
     @Override
     public void delete(Long id) {

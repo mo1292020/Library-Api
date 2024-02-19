@@ -1,9 +1,10 @@
 package com.personal.bankapidefault.controller;
 
-import com.personal.bankapidefault.dto.AddBookRequestDto;
+import com.personal.bankapidefault.dto.IdRequestDto;
+import com.personal.bankapidefault.dto.BookDto;
 import com.personal.bankapidefault.mapper.BookMapper;
 import com.personal.bankapidefault.security.APPUserDetail;
-import com.personal.bankapidefault.service.UserService;
+import com.personal.bankapidefault.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,17 +19,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final UserService userService;
+    private final BookService bookService;
     private Authentication authentication;
     private APPUserDetail appUserDetail;
 
     private final BookMapper bookMapper;
 
-    @GetMapping("/add")
-    public ResponseEntity<?> addBook(@RequestBody AddBookRequestDto addBookRequestDto){
+    @GetMapping("/buy")
+    public ResponseEntity<?> buyBook(@RequestBody IdRequestDto idRequestDto){
         authentication = SecurityContextHolder.getContext().getAuthentication();
         appUserDetail = (APPUserDetail) authentication.getPrincipal();
-        userService.addBook(appUserDetail.getId(),addBookRequestDto.getId());
+        bookService.buyBook(appUserDetail.getId(), idRequestDto.getId());
+        return ResponseEntity.ok(null);
+    }
+
+
+    @GetMapping("/add")
+    public ResponseEntity<?> addBook(@RequestBody BookDto bookDto){
+        bookService.save(bookMapper.toEntity(bookDto));
+        return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/delete")
+    public ResponseEntity<?> deleteBook(@RequestBody IdRequestDto idRequestDto){
+        bookService.delete(idRequestDto.getId());
         return ResponseEntity.ok(null);
     }
 

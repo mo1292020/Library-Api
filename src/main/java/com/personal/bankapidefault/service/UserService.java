@@ -18,7 +18,6 @@ public interface UserService extends UserDetailsService {
     public Optional<UserDto> findById(Long id);
 
     public void save(UserDto userDto);
-    public void addBook(Long userId, Long bookId);
     public void delete(Long id);
 
 
