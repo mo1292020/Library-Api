@@ -1,10 +1,12 @@
 package com.personal.bankapidefault.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity()
@@ -39,12 +41,14 @@ public class UsersEntity {
     @OrderColumn(name = "id")
     private Set<SecurityRoleEntity> securityRoleEntities = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_book_purchase",
             joinColumns={@JoinColumn(name="user_id")},
             inverseJoinColumns={@JoinColumn(name="book_id")})
     @OrderColumn(name = "id")
     private Set<BookEntity> bookEntities = new HashSet<>();
+
 
 
     public UsersEntity(Long id) {

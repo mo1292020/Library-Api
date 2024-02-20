@@ -38,6 +38,7 @@ public class UserMapperImpl implements UserMapper {
                     .isEnabled(usersEntity.isEnabled())
                     .isAccountNonLocked(usersEntity.isAccountNonLocked())
                     .securityRoleEntities(usersEntity.getSecurityRoleEntities())
+                    .purchasedBooks(usersEntity.getBookEntities())
                     .build();
     }
 
@@ -59,6 +60,7 @@ public class UserMapperImpl implements UserMapper {
                     .isEnabled(userDto.isEnabled())
                     .isAccountNonLocked(userDto.isAccountNonLocked())
                     .securityRoleEntities(userDto.getSecurityRoleEntities())
+                    .bookEntities(userDto.getPurchasedBooks())
                     .build();
     }
 

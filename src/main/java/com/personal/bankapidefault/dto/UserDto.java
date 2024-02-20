@@ -36,5 +36,5 @@ public class UserDto {
     private boolean isAccountNonLocked;
     private boolean isAccountNonExpired;
     private Set<SecurityRoleEntity> securityRoleEntities;
-    private Set<BookDto> purchasedBooks;
+    private Set<BookEntity> purchasedBooks;
 }
