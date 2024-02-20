@@ -26,7 +26,7 @@ public class BookEntity {
     private Double price;
     private Timestamp deploydAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private UsersEntity owner;
 

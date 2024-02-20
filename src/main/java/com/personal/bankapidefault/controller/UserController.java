@@ -16,7 +16,7 @@ import java.util.*;
 import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,7 +26,7 @@ public class UserController {
 
     private final BookMapper bookMapper;
 
-    @GetMapping("/users")
+    @GetMapping()
     public List<UserDto> findAll(){
         authentication = SecurityContextHolder.getContext().getAuthentication();
         appUserDetail = (APPUserDetail) authentication.getPrincipal();
@@ -37,12 +37,11 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping("/user")
+    @GetMapping("/current")
     public Optional<UserDto> findById(){
         authentication = SecurityContextHolder.getContext().getAuthentication();
         appUserDetail = (APPUserDetail) authentication.getPrincipal();
         return userService.findById(appUserDetail.getId());
     }
-
 
 }
