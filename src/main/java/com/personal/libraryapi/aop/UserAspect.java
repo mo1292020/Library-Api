@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserAspect {
 
-    @Before(value = "execution(* com.personal.bankapidefault.service.impl.UserServiceImpl.*(..))")
+    @Before(value = "execution(* com.personal.libraryapi.service.impl.UserServiceImpl.*(..))")
     public void beforeAdvice(JoinPoint joinPoint){
 //        System.out.println("Spring Before method: " + joinPoint.getSignature());
     }
